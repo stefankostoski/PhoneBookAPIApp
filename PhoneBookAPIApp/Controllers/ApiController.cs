@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.DataProtection.KeyManagement;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using PhoneBookAPIApp.Models;
 
 namespace PhoneBookAPIApp.Controllers
@@ -10,7 +9,7 @@ namespace PhoneBookAPIApp.Controllers
     {
         //CREATE NE CONTACT
         [HttpPost("Add")]
-        public IActionResult Create([FromQuery] Guid key, Contact contact)
+        public IActionResult Create([FromHeader] Guid key, [FromBody] Contact contact)
         {
             if (key == StaticDb.key)
             {
@@ -28,7 +27,7 @@ namespace PhoneBookAPIApp.Controllers
 
         //GET ALL CONTACTS
         [HttpGet("GetAll")]
-        public IActionResult GetAll([FromQuery] Guid key)
+        public IActionResult GetAll([FromHeader] Guid key)
         {
             if (key == StaticDb.key)
             {
@@ -44,7 +43,7 @@ namespace PhoneBookAPIApp.Controllers
 
         //GET CONTACT BY ID
         [HttpGet("GetContact/{id}")]
-        public IActionResult GetContactById([FromQuery] Guid key, int id)
+        public IActionResult GetContactById([FromHeader] Guid key, [FromRoute] int id)
         {
             if (key == StaticDb.key)
             {
@@ -62,7 +61,7 @@ namespace PhoneBookAPIApp.Controllers
 
         //DELETE CONTACT
         [HttpDelete("Delete/{id}")]
-        public IActionResult DeleteContact([FromQuery] Guid key, int id)
+        public IActionResult DeleteContact([FromHeader] Guid key, [FromRoute] int id)
         {
             if (key == StaticDb.key)
             {
@@ -81,7 +80,7 @@ namespace PhoneBookAPIApp.Controllers
 
         //UPDATE CONTACT
         [HttpPut("Update")]
-        public IActionResult UpdateContact([FromQuery] Guid key, [FromBody] Contact updateContact)
+        public IActionResult UpdateContact([FromHeader] Guid key, [FromBody] Contact updateContact)
         {
             if (key == StaticDb.key)
             {
@@ -102,7 +101,7 @@ namespace PhoneBookAPIApp.Controllers
 
         //FILTER BY FULLNAME
         [HttpGet("FilterByFullName")]
-        public IActionResult FilterByFullName([FromQuery] Guid key, string query)
+        public IActionResult FilterByFullName([FromHeader] Guid key, [FromQuery] string query)
         {
             if (key == StaticDb.key)
             {
@@ -119,9 +118,9 @@ namespace PhoneBookAPIApp.Controllers
             return BadRequest("You don't have access!");
         }
 
-        //FILTER BY FULLNAME
+        //FILTER BY VIBER
         [HttpGet("FilterByViber")]
-        public IActionResult FilterByViber([FromQuery] Guid key)
+        public IActionResult FilterByViber([FromHeader] Guid key)
         {
             if (key == StaticDb.key)
             {
