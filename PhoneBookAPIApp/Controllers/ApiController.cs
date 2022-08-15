@@ -38,6 +38,7 @@ namespace PhoneBookAPIApp.Controllers
                 }
                 return Ok(response);
             }
+
             return BadRequest("You don't have access!");
         }
 
@@ -56,6 +57,7 @@ namespace PhoneBookAPIApp.Controllers
 
                 return Ok(contact);
             }
+
             return BadRequest("You don't have access!");
         }
 
@@ -75,6 +77,7 @@ namespace PhoneBookAPIApp.Controllers
                 StaticDb.Contacts.Remove(contact);
                 return Ok("The contact was sucesfully deleted from the phone book");
             }
+
             return BadRequest("You don't have access!");
         }
 
@@ -96,6 +99,7 @@ namespace PhoneBookAPIApp.Controllers
 
                 return NotFound("Contact was not found in the phone book.");
             }
+
             return BadRequest("You don't have access!");
         }
 
@@ -122,6 +126,7 @@ namespace PhoneBookAPIApp.Controllers
         [HttpGet("FilterByViber")]
         public IActionResult FilterByViber([FromHeader] Guid key)
         {
+
             if (key == StaticDb.key)
             {
                 var response = StaticDb.Contacts.FindAll(a => a.HasViber == true);
@@ -133,6 +138,7 @@ namespace PhoneBookAPIApp.Controllers
 
                 return Ok(response);
             }
+
             return BadRequest("You don't have access!");
         }
 
