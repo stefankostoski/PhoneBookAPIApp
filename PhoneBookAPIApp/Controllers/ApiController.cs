@@ -106,8 +106,7 @@ namespace PhoneBookAPIApp.Controllers
         {
             if (key == StaticDb.key)
             {
-
-                var response = StaticDb.Contacts.FindAll(a => a.FullName.Contains(query) || a.FullName.ToLower().Contains(query));
+                var response = StaticDb.Contacts.FindAll(a => a.FullName.ToLower().Contains(query.ToLower()));
 
                 if (response == null)
                 {
