@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using PhoneBookAPIApp.Models;
 
 namespace PhoneBookAPIApp.Controllers
@@ -7,6 +8,13 @@ namespace PhoneBookAPIApp.Controllers
     [ApiController]
     public class ApiController : ControllerBase
     {
+        private readonly IConfiguration _configuration;
+
+        public ApiController(IConfiguration config)
+        {
+            _configuration = config;
+        }
+
         //CREATE NE CONTACT
         [HttpPost("Add")]
         public IActionResult Create([FromHeader] Guid key, [FromBody] Contact contact)
@@ -142,6 +150,28 @@ namespace PhoneBookAPIApp.Controllers
             return BadRequest("You don't have access!");
         }
 
+
+        //FILTER VIBER (ALTERNATIVE)
+        [HttpGet("FilterByViberAlt")]
+        public IActionResult FilterByViberAlt([FromHeader] string key)
+        {
+            var apiKey = _configuration.GetValue<string>("ApiKey");
+
+            if (key == apiKey)
+            {
+                var response = StaticDb.Contacts.FindAll(a => a.HasViber == true);
+
+                if (response == null)
+                {
+                    return NotFound("There are no contacts with Viber.");
+                }
+
+                return Ok(response);
+            }
+
+            return BadRequest("You don't have access!");
+        }
+        
         //GENERATE GUID
         [HttpGet("GenerateKey")]
         public IActionResult GenerateKey()
