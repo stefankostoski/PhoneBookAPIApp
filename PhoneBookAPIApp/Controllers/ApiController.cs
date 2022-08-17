@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
 using PhoneBookAPIApp.Models;
 
 namespace PhoneBookAPIApp.Controllers
@@ -19,15 +18,18 @@ namespace PhoneBookAPIApp.Controllers
         [HttpPost("Add")]
         public IActionResult Create([FromHeader] Guid key, [FromBody] Contact contact)
         {
+            //VALIDATION
+            //contact.GetType().GetProperties().Select(a => a.GetValue(contact)).Any(value => value == null);
+
             if (key == StaticDb.key)
             {
                 if (contact != null)
                 {
                     StaticDb.Contacts.Add(contact);
-                    return Ok("The contact has been created");
+                    return Ok("The contact has been created!");
 
                 }
-                return NotFound("There are not contacts in the phonebook");
+                return BadRequest("All fields are required!");
             }
 
             return BadRequest("You don't have access!");
@@ -171,7 +173,7 @@ namespace PhoneBookAPIApp.Controllers
 
             return BadRequest("You don't have access!");
         }
-        
+
         //GENERATE GUID
         [HttpGet("GenerateKey")]
         public IActionResult GenerateKey()
